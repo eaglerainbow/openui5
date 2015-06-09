@@ -32,14 +32,14 @@
             https://openui5.hana.ondemand.com/#docs/api/symbols/sap.ui.model.json.JSONModel.html
              */
 
-            var oFirstODataModel = new sap.ui.core.model.json.JSONModel();
+            var oFirstODataModel = new sap.ui.model.json.JSONModel();
             oFirstODataModel.attachRequestCompleted(function(oEvent) {
                 console.log("First OData Model is available");
                 oFirstDeferred.resolve();
             });
             oFirstODataModel.loadData("./Product.json"); // asynchronous loading
 
-            var oSecondODataModel = new sap.ui.core.model.json.JSONModel();
+            var oSecondODataModel = new sap.ui.model.json.JSONModel();
             oSecondODataModel.attachRequestCompleted(function(oEvent) {
                 console.log("Second OData Model is available");
                 oSecondDeferred.resolve();
