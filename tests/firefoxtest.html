@@ -17,8 +17,8 @@
         var oButton = new sap.m.Button();
         oButton.setText("Push me");
 
-        var oFirstDeferred = jQuery.deferred();
-        var oSecondDeferred = jQuery.deferred();
+        var oFirstDeferred = jQuery.Deferred();
+        var oSecondDeferred = jQuery.Deferred();
         var oCombinedDeferred;
 
         oCombinedDeferred = jQuery.when(oFirstDeferred, oSecondDeferred);
