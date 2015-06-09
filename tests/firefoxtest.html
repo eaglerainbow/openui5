@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="description" content="UI5 table example with local JSON model"/>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'/>
+    <meta http-equiv='Content-Type' content='text/html;charset=UTF-8'/>
+
+    <title>Firefox Debugger test environment</title>
+
+    <!-- Load UI5, select gold reflection theme and the "commons" and "table" control libraries -->
+    <script id='sap-ui-bootstrap' type='text/javascript'
+            src='https://openui5.hana.ondemand.com/resources/sap-ui-core.js'
+            data-sap-ui-theme='sap_bluecrystal'
+            data-sap-ui-libs='sap.m,sap.ui.table'></script>
+
+    <script>
+        var oButton = new sap.m.Button();
+        oButton.setText("Push me");
+
+        var oFirstDeferred = jQuery.deferred();
+        var oSecondDeferred = jQuery.deferred();
+        var oCombinedDeferred;
+
+        oCombinedDeferred = jQuery.when(oFirstDeferred, oSecondDeferred);
+        oCombinedDeferred.then(function(){
+            console.log("Both have been resolved");
+        });
+
+        oButton.attachPress(function () {
+            /*
+            NB: you may find details on the API of the JSON Model at
+            https://openui5.hana.ondemand.com/#docs/api/symbols/sap.ui.model.json.JSONModel.html
+             */
+
+            var oFirstODataModel = new sap.ui.core.model.json.JSONModel();
+            oFirstODataModel.attachRequestCompleted(function(oEvent) {
+                console.log("First OData Model is available");
+                oFirstDeferred.resolve();
+            });
+            oFirstODataModel.loadData("./Product.json"); // asynchronous loading
+
+            var oSecondODataModel = new sap.ui.core.model.json.JSONModel();
+            oSecondODataModel.attachRequestCompleted(function(oEvent) {
+                console.log("Second OData Model is available");
+                oSecondDeferred.resolve();
+            });
+            oSecondODataModel.loadData("./ProductCategory.json"); // asynchronous loading
+        });
+
+        // finally place the Table into the UI
+        oButton.placeAt("content");
+
+    </script>
+
+</head>
+<body class='sapUiBody'>
+<div id='content'></div>
+</body>
+</html>
